@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"strings"
 )
 
 type Message struct {
@@ -26,6 +27,11 @@ func QueueMessageFromJson(jsonBody io.Reader) QueueMessage {
 		panic(err)
 	}
 	return m
+}
+
+func QueueMessageFromSubscribe(value string) QueueMessage {
+	values := strings.Split(value, ":")
+	return QueueMessage{values[0], values[2], values[1]}
 }
 
 func QueueMessageToPublish(queueMessage QueueMessage) string {

@@ -18,7 +18,9 @@ func Subscribe() {
 	for {
 		switch v := psc.Receive().(type) {
 		case redis.Message:
-			fmt.Printf("%s: message: %s\n", v.Channel, v.Data)
+			qMessage := QueueMessageFromSubscribe(string(v.Data))
+
+			fmt.Printf("Sending to: %s", qMessage.Queue)
 		case redis.Subscription:
 			fmt.Printf("%s: %s %d\n", v.Channel, v.Kind, v.Count)
 		case error:

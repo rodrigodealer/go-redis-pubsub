@@ -28,3 +28,12 @@ func (s *MySuite) TestQueueMessageToPublish(c *C) {
 	value := QueueMessageToPublish(queueMessage)
 	c.Assert(value, Equals, "bla:2016-03-03:bla")
 }
+
+func (s *MySuite) TestQueueMessageFromSubscribe(c *C) {
+	message := "bla:2016-03-03:bla"
+	queueMessage := QueueMessageFromSubscribe(message)
+
+	c.Assert(queueMessage.Queue, Equals, "bla")
+	c.Assert(queueMessage.Message, Equals, "bla")
+	c.Assert(queueMessage.Date, Equals, "2016-03-03")
+}
