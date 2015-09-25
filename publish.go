@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/garyburd/redigo/redis"
@@ -13,6 +14,10 @@ func PublishHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+
+	m := QueueMessageFromJson(r.Body)
+
+	fmt.Print("%s", m)
 
 	c.Do("PUBLISH", "example", "Hello World")
 	defer c.Close()
