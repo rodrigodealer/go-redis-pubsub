@@ -19,7 +19,6 @@ func Subscribe() {
 		switch v := psc.Receive().(type) {
 		case redis.Message:
 			qMessage := QueueMessageFromSubscribe(string(v.Data))
-
 			fmt.Printf("Sending to: %s", qMessage.Queue)
 		case redis.Subscription:
 			fmt.Printf("%s: %s %d\n", v.Channel, v.Kind, v.Count)

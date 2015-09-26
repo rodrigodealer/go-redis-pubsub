@@ -11,11 +11,9 @@ func PublishHandler(w http.ResponseWriter, r *http.Request) {
 
 	c, err := redis.Dial("tcp", "192.168.99.100:6379")
 	if err != nil {
-		panic(err)
+		panic("Error connecting to redis")
 	}
 
-	m := QueueMessageFromJson(r.Body)
-
-	c.Do("PUBLISH", "example", QueueMessageToPublish(m))
+	c.Do("PUBLISH", "example", QueueMessageToPublish(QueueMessageFromJson(r.Body)))
 	defer c.Close()
 }

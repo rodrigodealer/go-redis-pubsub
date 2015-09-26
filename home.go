@@ -1,9 +1,9 @@
 package main
 
 import (
-    "net/http"
+	"net/http"
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-    w.Write([]byte("Gorilla!\n"))
+	w.Write([]byte("Gorilla!\n"))
 }
