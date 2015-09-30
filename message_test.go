@@ -3,6 +3,8 @@ package main
 import (
 	"bytes"
 
+	"github.com/rodrigodealer/queue-event-dispatcher/models"
+
 	. "gopkg.in/check.v1"
 )
 
@@ -16,7 +18,7 @@ import (
 func (s *MySuite) TestMessageQueueFromJson(c *C) {
 	b := []byte(`{"queue":"bla","message": "bla", "date":"2015-03-03"}`)
 
-	var queueMessage = QueueMessageFromJson(bytes.NewReader(b))
+	var queueMessage = models.QueueMessageFromJson(bytes.NewReader(b))
 
 	c.Assert(queueMessage.Queue, Equals, "bla")
 	c.Assert(queueMessage.Message, Equals, "bla")
@@ -24,14 +26,14 @@ func (s *MySuite) TestMessageQueueFromJson(c *C) {
 }
 
 func (s *MySuite) TestQueueMessageToPublish(c *C) {
-	queueMessage := QueueMessage{"bla", "bla", "2016-03-03"}
-	value := QueueMessageToPublish(queueMessage)
+	queueMessage := models.QueueMessage{"bla", "bla", "2016-03-03"}
+	value := models.QueueMessageToPublish(queueMessage)
 	c.Assert(value, Equals, "bla:2016-03-03:bla")
 }
 
 func (s *MySuite) TestQueueMessageFromSubscribe(c *C) {
 	message := "bla:2016-03-03:bla"
-	queueMessage := QueueMessageFromSubscribe(message)
+	queueMessage := models.QueueMessageFromSubscribe(message)
 
 	c.Assert(queueMessage.Queue, Equals, "bla")
 	c.Assert(queueMessage.Message, Equals, "bla")

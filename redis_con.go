@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/garyburd/redigo/redis"
+	"github.com/rodrigodealer/queue-event-dispatcher/models"
 )
 
 type RedisClient struct {
@@ -36,12 +37,12 @@ func (client *RedisClient) Publish(channel, message string) {
 	client.Unlock()
 }
 
-func (client *RedisClient) Receive() Message {
+func (client *RedisClient) Receive() models.Message {
 	switch message := client.PubSubConn.Receive().(type) {
 	case redis.Message:
-		return Message{"message", message.Channel, string(message.Data)}
+		return models.Message{"message", message.Channel, string(message.Data)}
 	case redis.Subscription:
-		return Message{message.Kind, message.Channel, string(message.Count)}
+		return models.Message{message.Kind, message.Channel, string(message.Count)}
 	}
-	return Message{}
+	return models.Message{}
 }
